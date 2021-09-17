@@ -42,11 +42,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.binding.setModel(list.get(position));
 
-        if (list.get(position).getBitmap() != null) {
+      /*  if (list.get(position).getBitmap() != null) {
             holder.binding.ivImage.setImageBitmap(list.get(position).getBitmap());
         } else {
             viewModel.downloadImageThread(list.get(position).getArtworkUrl100(), position);
-        }
+        }*/
         holder.binding.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

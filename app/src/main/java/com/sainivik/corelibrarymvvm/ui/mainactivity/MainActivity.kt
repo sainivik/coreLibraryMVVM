@@ -1,27 +1,22 @@
 package com.sainivik.corelibrarymvvm.ui.mainactivity
 
+import PageAdapter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.sainivik.corelibrarymvvm.R
 import com.sainivik.corelibrarymvvm.adapters.RecyclerViewClickListener
 import com.sainivik.corelibrarymvvm.adapters.SongsAdapter
 import com.sainivik.corelibrarymvvm.databinding.ActivityMainBinding
-import com.sainivik.corelibrarymvvm.helper.Status
-import com.sainivik.corelibrarymvvm.helper.Task
-import com.sainivik.corelibrarymvvm.network.model.BitmapModel
 import com.sainivik.corelibrarymvvm.network.model.ResultsItem
-import com.sainivik.corelibrarymvvm.network.model.SongsResponse
 import com.sainivik.corelibrarymvvm.ui.base.BaseActivity
 import com.sainivik.corelibrarymvvm.utils.Alerts
 import java.util.*
 
 class MainActivity : BaseActivity() {
-    private var binding: ActivityMainBinding? = null
+    lateinit var binding: ActivityMainBinding
     private var viewModel: MainActivityViewModel? = null
     private val songList = ArrayList<ResultsItem>()
     var adapter: SongsAdapter? = null
@@ -31,6 +26,12 @@ class MainActivity : BaseActivity() {
 
     override fun setBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setViewPager()
+    }
+
+    private fun setViewPager() {
+        binding.viewPager.adapter = PageAdapter(supportFragmentManager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 
     private fun setAdapter() {
@@ -44,7 +45,7 @@ class MainActivity : BaseActivity() {
 
     override fun attachViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        setAdapter()
+       /* setAdapter()
         if (isNetworkConnected) {
             viewModel!!.songsList
         } else {
@@ -64,7 +65,7 @@ class MainActivity : BaseActivity() {
                             val songsResponse = eventTask.data as SongsResponse?
                             songList.clear()
                             if (songsResponse != null && songsResponse.results != null) {
-                                songList.addAll(songsResponse.results)
+                                // songList.addAll(songsResponse.results)
                                 adapter!!.notifyDataSetChanged()
                             }
                             //viewModel.downloadImageThread(flikrImageModel.getPhotos().getPhoto());
@@ -85,7 +86,7 @@ class MainActivity : BaseActivity() {
                     Log.d("Task", "error")
                 }
             }
-        })
+        })*/
     }
 
     private val isNetworkConnected: Boolean
