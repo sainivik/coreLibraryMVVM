@@ -4,47 +4,37 @@
  *  Last modified 27/4/19 2:38 PM
  *
  */
+package com.sainivik.corelibrarymvvm.helper
 
-package com.sainivik.corelibrarymvvm.helper;
+class EventTask<T> private constructor(
+    val task: Task,
+    val status: Status,
+    val data: T?,
+    val msg: String?
+) {
+    companion object {
+        @JvmStatic
+        fun <T> success(data: T, task: Task): EventTask<T> {
+            return EventTask(task, Status.SUCCESS, data, null)
+        }
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+        @JvmStatic
+        fun <T> error(task: Task): EventTask<T?> {
+            return EventTask(task, Status.ERROR, null, null)
+        }
 
+        fun <T> perform(data: T?, task: Task): EventTask<T?> {
+            return EventTask(task, Status.PERFORM, data, null)
+        }
 
-public class EventTask<T> {
+        @JvmStatic
+        fun <T> loading(task: Task): EventTask<T?> {
+            return EventTask(task, Status.LOADING, null, null)
+        }
 
-    public final Status status;
-    public final Task task;
-    @Nullable
-    public final T data;
-    @Nullable
-    public final String msg;
-
-
-    private EventTask(Task task, Status status, @Nullable T data, String msg) {
-        this.task = task;
-        this.status = status;
-        this.data = data;
-        this.msg = msg;
-    }
-
-    public static <T> EventTask<T> success(@NonNull T data, Task task) {
-        return new EventTask<>(task, Status.SUCCESS, data, null);
-    }
-
-    public static <T> EventTask<T> error(Task task) {
-        return new EventTask<>(task, Status.ERROR, null, null);
-    }
-
-    public static <T> EventTask<T> perform(@Nullable T data, Task task) {
-        return new EventTask<>(task, Status.PERFORM, data, null);
-    }
-
-    public static <T> EventTask<T> loading(Task task) {
-        return new EventTask<>(task, Status.LOADING, null, null);
-    }
-
-    public static <T> EventTask<T> message(@NonNull T data, Task task) {
-        return new EventTask<>(task, Status.SUCCESS, data, null);
+        @JvmStatic
+        fun <T> message(data: T, task: Task): EventTask<T> {
+            return EventTask(task, Status.SUCCESS, data, null)
+        }
     }
 }

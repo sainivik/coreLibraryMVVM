@@ -1,89 +1,81 @@
-package com.sainivik.corelibrarymvvm.ui.mainactivity;
+package com.sainivik.corelibrarymvvm.ui.mainactivity
 
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
+import android.os.AsyncTask
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.sainivik.corelibrarymvvm.helper.EventTask
+import com.sainivik.corelibrarymvvm.helper.EventTask.Companion.error
+import com.sainivik.corelibrarymvvm.helper.EventTask.Companion.loading
+import com.sainivik.corelibrarymvvm.helper.EventTask.Companion.message
+import com.sainivik.corelibrarymvvm.helper.EventTask.Companion.success
+import com.sainivik.corelibrarymvvm.helper.Task
+import com.sainivik.corelibrarymvvm.network.model.BitmapModel
+import com.sainivik.corelibrarymvvm.network.model.SongsResponse
+import com.sainivik.corelibrarymvvm.network.repository.MainActivityRepository.downloadThisImage
+import com.sainivik.corelibrarymvvm.network.repository.MainActivityRepository.processImageListRequest
+import java.net.MalformedURLException
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.sainivik.corelibrarymvvm.helper.EventTask;
-import com.sainivik.corelibrarymvvm.helper.Task;
-import com.sainivik.corelibrarymvvm.network.model.BitmapModel;
-import com.sainivik.corelibrarymvvm.network.model.SongsResponse;
-import com.sainivik.corelibrarymvvm.network.repository.MainActivityRepository;
-
-import java.net.MalformedURLException;
-
-public class MainActivityViewModel extends ViewModel {
-    MutableLiveData<EventTask> eventTaskMutableLiveData = new MutableLiveData<>();
-
-
-    public void downloadImageThread(final String photoUrl, final int pos) {
-
-        new AsyncTask<String, String, String>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                eventTaskMutableLiveData.postValue(EventTask.loading(Task.DOWNLOADING));
+class MainActivityViewModel : ViewModel() {
+    var eventTaskMutableLiveData = MutableLiveData<EventTask<*>>()
+    fun downloadImageThread(photoUrl: String?, pos: Int) {/*
+        object : AsyncTask<String?, String?, String>() {
+            override fun onPreExecute() {
+                super.onPreExecute()
+                eventTaskMutableLiveData.postValue(loading<Any>(Task.DOWNLOADING))
             }
 
-            @Override
-            protected String doInBackground(String... params) {
+            protected override fun doInBackground(vararg params: String): String {
                 try {
-                    Bitmap image = MainActivityRepository.downloadThisImage(photoUrl);
-                    eventTaskMutableLiveData.postValue(EventTask.message(new BitmapModel(pos, image), Task.FIRSTIMAGE));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    val image = downloadThisImage(photoUrl)
+                    eventTaskMutableLiveData.postValue(
+                        message(
+                            BitmapModel(pos, image),
+                            Task.FIRSTIMAGE
+                        )
+                    )
+                } catch (e: MalformedURLException) {
+                    e.printStackTrace()
+                }
+                return "complete"
+            }
+
+            override fun onCancelled() {
+                super.onCancelled()
+                eventTaskMutableLiveData.postValue(error<Any>(Task.DOWNLOADING))
+            }
+
+            override fun onPostExecute(data: String) {
+                super.onPostExecute(data)
+                eventTaskMutableLiveData.postValue(success(data, Task.DOWNLOADING))
+            }
+        }.execute()*/
+    }
+
+    // Parse the JSON using the library of your choice
+    val songsList: Unit
+        get() {
+            /*object : AsyncTask<String?, Void?, SongsResponse?>() {
+                override fun onPreExecute() {
+                    super.onPreExecute()
+                    eventTaskMutableLiveData.postValue(loading<Any>(Task.FLIKRURL))
                 }
 
+                protected override fun doInBackground(vararg params: String): SongsResponse? {
+                    var data: SongsResponse? = SongsResponse()
+                    data = processImageListRequest()
+                    // Parse the JSON using the library of your choice
+                    return data
+                }
 
-                return "complete";
-            }
+                override fun onCancelled() {
+                    super.onCancelled()
+                    eventTaskMutableLiveData.postValue(error<Any>(Task.FLIKRURL))
+                }
 
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-                eventTaskMutableLiveData.postValue(EventTask.error(Task.DOWNLOADING));
-            }
-
-            @Override
-            protected void onPostExecute(String data) {
-                super.onPostExecute(data);
-
-                eventTaskMutableLiveData.postValue(EventTask.success(data, Task.DOWNLOADING));
-
-            }
-        }.execute();
-    }
-
-
-    void getSongsList() {
-        new AsyncTask<String, Void, SongsResponse>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                eventTaskMutableLiveData.postValue(EventTask.loading(Task.FLIKRURL));
-            }
-
-            @Override
-            protected SongsResponse doInBackground(String... params) {
-                SongsResponse data = new SongsResponse();
-                data = MainActivityRepository.processImageListRequest();
-                // Parse the JSON using the library of your choice
-                return data;
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-                eventTaskMutableLiveData.postValue(EventTask.error(Task.FLIKRURL));
-            }
-
-            @Override
-            protected void onPostExecute(SongsResponse data) {
-                super.onPostExecute(data);
-                eventTaskMutableLiveData.postValue(EventTask.success(data, Task.FLIKRURL));
-            }
-        }.execute();
-    }
+                override fun onPostExecute(data: SongsResponse?) {
+                    super.onPostExecute(data)
+                    eventTaskMutableLiveData.postValue(success(data, Task.FLIKRURL))
+                }
+            }.execute()*/
+        }
 }
