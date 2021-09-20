@@ -21,28 +21,28 @@ abstract class SongsMasterDao {
 
 
     @Transaction
-    open fun insertWithTime(userInfoModel: SongsModel): Long? {
-        userInfoModel.createdOn = Calendar.getInstance().time
-        userInfoModel.updatedOn = Calendar.getInstance().time
-        userInfoModel.updatedBy = "user"
-        return saveSongData(userInfoModel)
+    open fun insertWithTime(model: SongsModel): Long? {
+        model.createdOn = Calendar.getInstance().time
+        model.updatedOn = Calendar.getInstance().time
+        model.updatedBy = "user"
+        return saveSongData(model)
     }
 
     @Transaction
-    open fun insertAllWithTime(notificationList: ArrayList<SongsModel>): List<Long> {
-        for (notificationModel in notificationList) {
-            notificationModel.createdOn = Calendar.getInstance().time
-            notificationModel.updatedOn = Calendar.getInstance().time
-            notificationModel.updatedBy = "user"
+    open fun insertAllWithTime(songList: ArrayList<SongsModel>): List<Long> {
+        for (model in songList) {
+            model.createdOn = Calendar.getInstance().time
+            model.updatedOn = Calendar.getInstance().time
+            model.updatedBy = "user"
         }
-        return saveAllSongsData(notificationList)
+        return saveAllSongsData(songList)
     }
 
     @Transaction
-    open fun upsert(userInfoModel: SongsModel?) {
-        val id = insertWithTime(userInfoModel!!)
+    open fun upsert(model: SongsModel?) {
+        val id = insertWithTime(model!!)
         if (id == -1L) {
-            updateWithTime(userInfoModel)
+            updateWithTime(model)
         }
     }
 
@@ -50,33 +50,33 @@ abstract class SongsMasterDao {
     abstract fun nukeTable()
 
     @Transaction
-    open fun upsertAll(notificationList: ArrayList<SongsModel>) {
-        val id = insertAllWithTime(notificationList)
+    open fun upsertAll(songsList: ArrayList<SongsModel>) {
+        val id = insertAllWithTime(songsList)
         if (id[0] == -1L) {
-            updateAllWithTime(notificationList)
+            updateAllWithTime(songsList)
         }
     }
 
     @Transaction
-    open fun updateWithTime(userInfoModel: SongsModel) {
-        userInfoModel.updatedOn = Calendar.getInstance().time
-        userInfoModel.updatedBy = "user"
-        update(userInfoModel)
+    open fun updateWithTime(model: SongsModel) {
+        model.updatedOn = Calendar.getInstance().time
+        model.updatedBy = "user"
+        update(model)
     }
 
     @Transaction
-    open fun updateAllWithTime(notificationList: ArrayList<SongsModel>) {
-        for (notificationModel in notificationList) {
-            notificationModel.updatedOn = Calendar.getInstance().time
-            notificationModel.updatedBy = "user"
+    open fun updateAllWithTime(songList: ArrayList<SongsModel>) {
+        for (model in songList) {
+            model.updatedOn = Calendar.getInstance().time
+            model.updatedBy = "user"
         }
-        updateAll(notificationList)
+        updateAll(songList)
     }
 
     @Update
-    abstract fun update(userInfoModel: SongsModel?)
+    abstract fun update(model: SongsModel?)
 
     @Update
-    abstract fun updateAll(notificationList: ArrayList<SongsModel>)
+    abstract fun updateAll(songLIst: ArrayList<SongsModel>)
 
 }

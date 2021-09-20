@@ -1,5 +1,7 @@
 package com.technorapper.technoraploader.di.module
 
+import android.content.Context
+import com.sainivik.corelibrarymvvm.application.MyApp
 import com.sainivik.corelibrarymvvm.database.AppDatabase
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -19,6 +21,12 @@ object AppModule {
     fun providePicasso(): Picasso {
         return Picasso.get()
     }
+
+   /* @Provides
+    @Singleton
+    fun provideContext(): Context {
+        return MyApp
+    }*/
 
 
 }

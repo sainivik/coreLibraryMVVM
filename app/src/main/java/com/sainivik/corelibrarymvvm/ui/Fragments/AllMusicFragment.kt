@@ -18,6 +18,7 @@ import com.sainivik.corelibrarymvvm.model.SongsModel
 import com.sainivik.corelibrarymvvm.model.SongsResponse
 import com.sainivik.corelibrarymvvm.ui.base.BaseFragment
 import com.sainivik.corelibrarymvvm.ui.mainactivity.MainActivityViewModel
+import com.sainivik.corelibrarymvvm.utils.CheckInternetConnection
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -31,7 +32,14 @@ class AllMusicFragment : BaseFragment() {
 
     override fun attachViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.getSongList()
+        if (CheckInternetConnection.isInternetConnected(requireContext())) {
+            viewModel.getSongList()
+        } else {
+
+            Toast.makeText(activity, "Please check your internet connection", Toast.LENGTH_SHORT)
+                .show()
+
+        }
         viewModel.response.observe(this, androidx.lifecycle.Observer { parseSongList(it) })
 
     }
@@ -42,7 +50,7 @@ class AllMusicFragment : BaseFragment() {
                 viewModel.saveSong(songList[pos])
                 Toast.makeText(
                     activity,
-                    "Song successfully saved in local Databse",
+                    "TITLE is now saved in database",
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -62,8 +70,6 @@ class AllMusicFragment : BaseFragment() {
             container,
             false
         )
-        binding.showProgress = true
-
         setAdapter()
         return binding.root
     }

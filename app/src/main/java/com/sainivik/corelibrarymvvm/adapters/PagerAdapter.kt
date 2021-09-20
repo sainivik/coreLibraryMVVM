@@ -29,7 +29,7 @@ class PageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
                 return "All Music"
             }
             1 -> {
-                return "Saved Music"
+                return "History"
             }
       
         }

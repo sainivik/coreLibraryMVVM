@@ -10,10 +10,7 @@ import com.whide.partner.data.repository.models.base.BaseDaoModel
 
 @Entity(tableName = "songTable")
 data class SongsModel(
-	@PrimaryKey(autoGenerate = true)
-	@NonNull
-	@ColumnInfo(name = "primaryKey")
-	var primaryKey: Int,
+
 
 	@ColumnInfo(name = "artworkUrl100")
 	@field:SerializedName("artworkUrl100")
@@ -91,6 +88,9 @@ data class SongsModel(
 	@field:SerializedName("kind")
 	val kind: String? = null,
 
+
+	@NonNull
+	@PrimaryKey
 	@ColumnInfo(name = "trackId")
 	@field:SerializedName("trackId")
 	val trackId: Int? = null,
