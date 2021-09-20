@@ -4,12 +4,13 @@ import androidx.room.*
 import com.sainivik.corelibrarymvvm.model.SongsModel
 import io.reactivex.Flowable
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Dao
 abstract class SongsMasterDao {
 
     @Query("SELECT * FROM songTable")
-    abstract fun getAll(id: String): Flowable<SongsModel>
+    abstract fun getAll(): Flowable<List<SongsModel>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

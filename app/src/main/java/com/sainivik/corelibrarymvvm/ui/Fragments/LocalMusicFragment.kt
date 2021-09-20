@@ -17,9 +17,9 @@ import com.sainivik.corelibrarymvvm.helper.Task
 import com.sainivik.corelibrarymvvm.model.SongsModel
 import com.sainivik.corelibrarymvvm.ui.base.BaseFragment
 import com.sainivik.corelibrarymvvm.ui.mainactivity.MainActivityViewModel
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LocalMusicFragment : BaseFragment() {
     lateinit var binding: FragmentLocalMusicBinding
     lateinit var viewModel: MainActivityViewModel
@@ -29,8 +29,8 @@ class LocalMusicFragment : BaseFragment() {
 
     override fun attachViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.getSongList()
-        viewModel.response.observe(this, androidx.lifecycle.Observer { parseSongList(it) })
+        viewModel.getSongsFromDB()
+        viewModel.dbResponse.observe(this, androidx.lifecycle.Observer { parseSongList(it) })
 
     }
 
@@ -61,23 +61,22 @@ class LocalMusicFragment : BaseFragment() {
 
         when (eventTask.status) {
             Status.LOADING -> {
+                binding.showProgress = true
 
             }
             Status.SUCCESS -> {
-                if (eventTask.task == Task.GET_SONGS) {
-                    /*  var response: TotalIncomeResponse = eventTask.data as TotalIncomeResponse
-                      when (response?.result!!.code) {
-                          1 -> {
-                              totalIncome = response.details.monthlyIncome
-                              binding.incomeModel = response.details.monthlyIncome
-                              prefs.todayTotalIncome = response.details.todayIncome.totalIncome
-                          }
+                binding.showProgress = false
 
-                          else -> {
-                          }
+                if (eventTask.task == Task.GET_SONGS_FROM_DB) {
+                    var list: ArrayList<SongsModel>? = eventTask.data as ArrayList<SongsModel>
+
+                    if (list != null) {
+                        songList.clear()
+                        songList.addAll(list)
+                        adapter!!.notifyDataSetChanged()
 
 
-                      }*/
+                    }
 
 
                 }
@@ -85,6 +84,7 @@ class LocalMusicFragment : BaseFragment() {
 
             }
             Status.ERROR -> {
+                binding.showProgress = false
                 Toast.makeText(activity, eventTask.msg, Toast.LENGTH_SHORT).show()
 
             }

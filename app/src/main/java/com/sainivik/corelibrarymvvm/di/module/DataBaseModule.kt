@@ -1,33 +1,35 @@
 package com.sainivik.corelibrarymvvm.di.module
 
+import android.content.Context
 import androidx.room.Room
-import com.sainivik.corelibrarymvvm.application.MyApp
 import com.sainivik.corelibrarymvvm.database.AppDatabase
 import com.sainivik.corelibrarymvvm.database.DatabaseConstants
 import com.sainivik.corelibrarymvvm.database.dao.SongsMasterDao
-import com.technorapper.technoraploader.di.scopes.ApplicationScoped
-
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-class DataBaseModule {
+@InstallIn(SingletonComponent::class)
+object DataBaseModule {
 
     @Provides
-    @ApplicationScoped
-    fun provideWDDatabase(context: MyApp): AppDatabase {
+    @Singleton
+    fun provideWDDatabase(@ApplicationContext appContext: Context): AppDatabase {
         return Room.databaseBuilder(
-            context,
+            appContext,
             AppDatabase::class.java, DatabaseConstants.DB_NAME
         )
             .fallbackToDestructiveMigration()
-            // .addMigrations(WhideDatabase.MIGRATION_1_2) /*.allowMainThreadQueries()*/
             .build()
     }
 
 
-    @ApplicationScoped
     @Provides
+    @Singleton
     fun provideSongsMasterDao(appDatabase: AppDatabase): SongsMasterDao {
         return appDatabase.getSongsMasterDao()
     }

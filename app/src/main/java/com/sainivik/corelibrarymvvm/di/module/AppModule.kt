@@ -1,11 +1,12 @@
 package com.technorapper.technoraploader.di.module
 
+import com.sainivik.corelibrarymvvm.database.AppDatabase
+import com.squareup.picasso.Picasso
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.CacheControl
-import okhttp3.Interceptor
-import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 
 @Module
@@ -13,15 +14,11 @@ import java.util.concurrent.TimeUnit
 object AppModule {
 
 
-    fun provideCacheInterceptor(maxDays: Int): Interceptor? {
-        return Interceptor { chain ->
-            val response = chain.proceed(chain.request())
-            val cacheControl: CacheControl = CacheControl.Builder()
-                .maxAge(maxDays, TimeUnit.DAYS)
-                .build()
-            response.newBuilder()
-                .header("Cache-Control", cacheControl.toString())
-                .build()
-        }
+    @Provides
+    @Singleton
+    fun providePicasso(): Picasso {
+        return Picasso.get()
     }
+
+
 }

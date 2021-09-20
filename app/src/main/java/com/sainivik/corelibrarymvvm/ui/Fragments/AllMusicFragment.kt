@@ -15,11 +15,13 @@ import com.sainivik.corelibrarymvvm.helper.EventTask
 import com.sainivik.corelibrarymvvm.helper.Status
 import com.sainivik.corelibrarymvvm.helper.Task
 import com.sainivik.corelibrarymvvm.model.SongsModel
+import com.sainivik.corelibrarymvvm.model.SongsResponse
 import com.sainivik.corelibrarymvvm.ui.base.BaseFragment
 import com.sainivik.corelibrarymvvm.ui.mainactivity.MainActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-
+@AndroidEntryPoint
 class AllMusicFragment : BaseFragment() {
     lateinit var binding: FragmentAllMusicBinding
     lateinit var viewModel: MainActivityViewModel
@@ -37,6 +39,13 @@ class AllMusicFragment : BaseFragment() {
     private fun setAdapter() {
         adapter = SongsAdapter(songList, object : RecyclerViewClickListener {
             override fun onClick(view: View?, pos: Int) {
+                viewModel.saveSong(songList[pos])
+                Toast.makeText(
+                    activity,
+                    "Song successfully saved in local Databse",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             }
         })
         binding.adapter = adapter
@@ -53,6 +62,8 @@ class AllMusicFragment : BaseFragment() {
             container,
             false
         )
+        binding.showProgress = true
+
         setAdapter()
         return binding.root
     }
@@ -61,23 +72,21 @@ class AllMusicFragment : BaseFragment() {
 
         when (eventTask.status) {
             Status.LOADING -> {
-
+                binding.showProgress = true
             }
             Status.SUCCESS -> {
+                binding.showProgress = false
+
                 if (eventTask.task == Task.GET_SONGS) {
-                    /*  var response: TotalIncomeResponse = eventTask.data as TotalIncomeResponse
-                      when (response?.result!!.code) {
-                          1 -> {
-                              totalIncome = response.details.monthlyIncome
-                              binding.incomeModel = response.details.monthlyIncome
-                              prefs.todayTotalIncome = response.details.todayIncome.totalIncome
-                          }
+                    var response: SongsResponse? = eventTask.data as SongsResponse
 
-                          else -> {
-                          }
+                    if (response?.result != null) {
+                        songList.clear()
+                        songList.addAll(response.result)
+                        adapter!!.notifyDataSetChanged()
 
 
-                      }*/
+                    }
 
 
                 }
@@ -85,6 +94,8 @@ class AllMusicFragment : BaseFragment() {
 
             }
             Status.ERROR -> {
+                binding.showProgress = false
+
                 Toast.makeText(activity, eventTask.msg, Toast.LENGTH_SHORT).show()
 
             }

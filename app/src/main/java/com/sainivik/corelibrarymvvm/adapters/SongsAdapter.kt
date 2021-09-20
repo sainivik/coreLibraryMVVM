@@ -26,12 +26,7 @@ class SongsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.model = list[position]
-
-        /*  if (list.get(position).getBitmap() != null) {
-            holder.binding.ivImage.setImageBitmap(list.get(position).getBitmap());
-        } else {
-            viewModel.downloadImageThread(list.get(position).getArtworkUrl100(), position);
-        }*/holder.binding.llMain.setOnClickListener { v -> listener.onClick(v, position) }
+        holder.binding.llMain.setOnClickListener { v -> listener.onClick(v, position) }
     }
 
     override fun getItemCount(): Int {

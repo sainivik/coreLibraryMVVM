@@ -2,7 +2,11 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="showProgress"
+            type="Boolean" />
         <variable
             name="adapter"
             type="com.sainivik.corelibrarymvvm.adapters.SongsAdapter" />
@@ -20,13 +24,14 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:visibility="@{safeUnbox(showProgress)?View.VISIBLE:View.GONE}" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             adapter="@{adapter}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 

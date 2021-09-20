@@ -3,16 +3,12 @@ package com.sainivik.corelibrarymvvm.ui.mainactivity
 import PageAdapter
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.sainivik.corelibrarymvvm.R
-import com.sainivik.corelibrarymvvm.adapters.RecyclerViewClickListener
 import com.sainivik.corelibrarymvvm.adapters.SongsAdapter
 import com.sainivik.corelibrarymvvm.databinding.ActivityMainBinding
-import com.sainivik.corelibrarymvvm.network.model.ResultsItem
 import com.sainivik.corelibrarymvvm.ui.base.BaseActivity
-import com.sainivik.corelibrarymvvm.utils.Alerts
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -20,7 +16,6 @@ import java.util.*
 class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var viewModel: MainActivityViewModel
-    private val songList = ArrayList<ResultsItem>()
     var adapter: SongsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +36,6 @@ class MainActivity : BaseActivity() {
 
     override fun attachViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.getSongList()
         /* setAdapter()
          if (isNetworkConnected) {
              viewModel!!.songsList
