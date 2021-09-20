@@ -19,16 +19,16 @@ class EventTask<T> private constructor(
         }
 
         @JvmStatic
-        fun <T> error(task: Task): EventTask<T?> {
-            return EventTask(task, Status.ERROR, null, null)
+        fun <T> error(task: Task, s: String): EventTask<T> {
+            return EventTask(task, Status.ERROR, null, s)
         }
 
-        fun <T> perform(data: T?, task: Task): EventTask<T?> {
+        fun <T> perform(data: T?, task: Task): EventTask<T> {
             return EventTask(task, Status.PERFORM, data, null)
         }
 
         @JvmStatic
-        fun <T> loading(task: Task): EventTask<T?> {
+        fun <T> loading(task: Task): EventTask<T> {
             return EventTask(task, Status.LOADING, null, null)
         }
 

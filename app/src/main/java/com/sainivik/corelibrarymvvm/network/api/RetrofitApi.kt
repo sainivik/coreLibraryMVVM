@@ -1,11 +1,12 @@
 package com.sainivik.corelibrarymvvm.network.api
-import com.google.gson.JsonElement
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
 
-interface RetrofitApi
-{
-    @GET("")
-    fun getMovies(): Call<JsonElement>
+import com.sainivik.corelibrarymvvm.network.model.SongsResponse
+import retrofit2.http.GET
+import retrofit2.http.Headers
+
+interface RetrofitApi {
+
+    @Headers("Accept: application/json")
+    @GET("search?term=Michael+jackson&media=musicVideo")
+    suspend fun getSongs(): SongsResponse
 }

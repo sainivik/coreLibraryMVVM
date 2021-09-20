@@ -3,10 +3,20 @@ package com.sainivik.corelibrarymvvm.ui.mainactivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sainivik.corelibrarymvvm.helper.EventTask
+import com.sainivik.corelibrarymvvm.network.repository.MainActivityRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainActivityViewModel : ViewModel() {
-    var eventTaskMutableLiveData = MutableLiveData<EventTask<*>>()
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val repository: MainActivityRepository
+) : ViewModel() {
+    var response = MutableLiveData<EventTask<Any>>()
 
-    // var reposetory : MainActivityRepository()
+
+    fun getSongList() {
+        repository.getSongs(response)
+    }
+
 
 }
