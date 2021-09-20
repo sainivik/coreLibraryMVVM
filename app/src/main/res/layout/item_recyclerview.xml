@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.sainivik.corelibrarymvvm.network.model.ResultsItem" />
+            type="com.sainivik.corelibrarymvvm.model.SongsModel" />
 
     </data>
 
@@ -32,9 +32,9 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -53,6 +53,7 @@
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"

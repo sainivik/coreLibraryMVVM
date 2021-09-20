@@ -53,7 +53,7 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val requestBuilder: Request.Builder = chain.request().newBuilder()
                 requestBuilder.header("Content-Type", "application/json")
-               // requestBuilder.header("x-hasura-admin-secret", "incredible-admin-secret")
+                // requestBuilder.header("x-hasura-admin-secret", "incredible-admin-secret")
                 chain.proceed(requestBuilder.build())
             }
             .connectTimeout(1200, TimeUnit.SECONDS)

@@ -37,14 +37,7 @@ class MainActivity : BaseActivity() {
         binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 
-    private fun setAdapter() {
-        adapter = SongsAdapter(songList, viewModel, this, object : RecyclerViewClickListener {
-            override fun onClick(view: View?, pos: Int) {
-                Alerts.rideHistoryDialog(songList[pos], this@MainActivity)
-            }
-        })
-        binding!!.adapter = adapter
-    }
+
 
     override fun attachViewModel() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)

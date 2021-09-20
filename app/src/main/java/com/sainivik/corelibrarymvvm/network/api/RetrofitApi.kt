@@ -1,6 +1,6 @@
 package com.sainivik.corelibrarymvvm.network.api
 
-import com.sainivik.corelibrarymvvm.network.model.SongsResponse
+import com.sainivik.corelibrarymvvm.model.SongsResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
